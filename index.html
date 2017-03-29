@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -34,6 +34,9 @@
 			}
 			#id_selectNone:hover {
 				background-color: #969696;
+			}
+			#direct_input {
+				display: none;
 			}
 		</style>
 	</head>
@@ -327,7 +330,11 @@
 				newInput.setAttribute("onchange", "checkUncheck();");
 				//newInput.setAttribute('checked', 'checked');
 				//I can't make it work with IE :|
-
+				
+				var lastInput = document.createElement('INPUT');
+				lastInput.setAttribute("type", "text");
+				lastInput.setAttribute("size", "10");
+				
 				var newCell1 = newRow.insertCell(1);
 				var newCell2 = newRow.insertCell(2);
 				var newCell3 = newRow.insertCell(3);
@@ -335,6 +342,7 @@
 				var newCell5 = newRow.insertCell(5);
 				var newCell6 = newRow.insertCell(6);
 				var newCell7 = newRow.insertCell(7);
+				var newCell8 = newRow.insertCell(8);
 
 				var datesToWrite = firstDate + "->" + lastDate;
 
@@ -346,6 +354,7 @@
 				newCell5.appendChild(document.createTextNode(returned[0]));
 				newCell6.appendChild(document.createTextNode('|'));
 				newCell7.appendChild(document.createTextNode(textToWriteINSS));
+				newCell8.appendChild(lastInput);
 
 				document.getElementById(checkBoxCount).checked = "checked";
 
@@ -436,7 +445,6 @@
 			
 			function zeroSelection() {
 				var c = document.getElementsByTagName('input');
-				console.log(c.length);
 				for(var i = 0; i < c.length; i++){
 					if (c[i].getAttribute('type') == 'checkbox') {
 						c[i].checked = false;
@@ -446,6 +454,36 @@
 			checkUncheck();
 			
 			return;
+			}
+			
+			// Calculates the period from pasted text
+			function insertFromText() {
+				document.getElementById('direct_input').style = 'display: inline;'
+			}
+			
+			function calculateFromText() {
+				document.getElementById('direct_input').style = 'display: none;'
+				var wholetxt = document.getElementById('txt_for_direct_input').value;
+				
+				txt_array = wholetxt.split(/\r?\n/g);
+
+				for (var i = 0; i < txt_array.length; i++) {
+					// 2 formats allowed
+					var matches1 = txt_array[i].match(/\d{2}\/\d{2}\/\d{4}/g);
+					var matches2 = txt_array[i].match(/\d{8}/g);
+					
+					if (matches1 && matches1.length >= 2) {
+						document.getElementById('id_fistDateLastDate_beginning').value = matches1[0];
+						document.getElementById('id_fistDateLastDate_ending').value = matches1[1];
+						getPeriod();
+					}
+					
+					if (matches2 && matches2.length >= 2) {
+						document.getElementById('id_fistDateLastDate_beginning').value = matches2[0];
+						document.getElementById('id_fistDateLastDate_ending').value = matches2[1];
+						getPeriod();
+					}
+				}
 			}
 			// ]]>
 		</script>
@@ -490,21 +528,23 @@
 			<form id="id_fistDateLastDate_form" action="" onkeydown="keyPress(event, this.id);">
 				<table>
 					<tr><td align="left">Data inicial:</td><td><input type="text" class="textBox_big" id="id_fistDateLastDate_beginning" onkeyup="tabToNext(event, this.id);" /></td></tr>
-					<tr><td align="left">Data final:</td><td><input type="text" class="textBox_big" id="id_fistDateLastDate_ending" /></td><td><input type="button" value="Calcular" onclick="getPeriod()"/></td><td><input type="button" value="Atualizar" onclick="checkUncheck();" /></td></tr>
-					<tr><td colspan="2"><small>Formato: ddmmaaaa ou dd/mm/aaaa.</small></td></tr>
+					<tr><td align="left">Data final:</td><td><input type="text" class="textBox_big" id="id_fistDateLastDate_ending" /></td><td><input type="button" value="Calcular" onclick="getPeriod()"/></td><td><input type="button" value="Atualizar" onclick="checkUncheck();" /></td><td><input type="button" value="Inserir" onclick="insertFromText();"/></td></tr>
+					<tr><td colspan="4"><small>Formato: ddmmaaaa ou dd/mm/aaaa.</small></td></tr>
 				</table>
 			</form>
+			<div id='direct_input'><textarea rows='6' cols='40' id='txt_for_direct_input'></textarea><input type="button" value="OK" onclick="calculateFromText();"/></div>
 			<div id="id_results"></div>
 			<table id="id_fistDateLastDate_table_periods">
 				<tr>
 					<td></td>
 					<td align="center">Período</td>
-					<td>|</td>
+					<td></td>
 					<td align="center">Anos, meses e dias</td>
 					<td>&#60;&#62;</td>
 					<td align="center">Dias</td>
-					<td>|</td>
+					<td></td>
 					<td align="center">à INSS</td>
+					<td align="center">Descrição</td>
 				</tr>
 			</table>
 		</div>
