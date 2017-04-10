@@ -64,15 +64,18 @@ function toDays(yearsMonthsDays) {
   return result;
 }
 
+// A number of days to years, months and days
 function toDate(days) {
-  days *= 1;
+  days *= 1; // ensures it is a number
   if (days > 200000) {
     alert("Value is too big.\nBypass me, if you can.");
     return "";
-  } else if (days == 0) { return "0 dias"; } 
-  var years = 0;
-  var months = 0;
-  var text = "";
+  } else if (days == 0) {
+	return "0 dias";
+  }
+  let years = 0;
+  let months = 0;
+  let text = "";
   while (days/365 >= 1) {
     days -= 365;
     years += 1;
@@ -99,23 +102,23 @@ function toDate(days) {
     text = text;
     } else {
     text = text + months  + " meses, ";
-    }
+  }
   if (days==1) {
     text = text + days + " dia";
     } else if (days==0) {
-    var len = text.length - 2;
+    let len = text.length - 2;
     text = text.substring(0, len);
     } else {
     text = text + days + " dias";
-    }
+  }
   if (text.lastIndexOf(',') > 0) {
-    var lastCommaBefore = text.lastIndexOf(',');
-    var lastCommaAfter = text.lastIndexOf(',') + 1;
-    var len = text.lenght;
+    let lastCommaBefore = text.lastIndexOf(',');
+    let lastCommaAfter = text.lastIndexOf(',') + 1;
+    let len = text.lenght;
     text = text.substring(0, lastCommaBefore) + " e" + text.substring(lastCommaAfter, len);
-    }
+  }
   return text;
- }
+}
   
 function yearsMonthsDaystoDays() {
   years = document.getElementById('id_yearsMonthsDaysToDays_years').value;
@@ -128,16 +131,16 @@ function yearsMonthsDaystoDays() {
 }
 
 function daysToYearsMonthsDays() {
-  var days = document.getElementById('id_daysToYearsMonthsDays_days').value;
+  let days = document.getElementById('id_daysToYearsMonthsDays_days').value;
   if (days.indexOf('+', 0) > 0) {
-    var a = days.split('+');
+    let a = days.split('+');
     days = 0;
     for (i in a) {
       days += a[i] * 1;
     }
   }
   document.getElementById('id_daysToYearsMonthsDays_days').value = days;
-  var result = toDate(days);
+  let result = toDate(days);
   document.getElementById('id_daysToYearsMonthsDays_result').innerHTML = result;
   return false;
 }
@@ -145,18 +148,18 @@ function daysToYearsMonthsDays() {
 function sumDaysMonthsYears() {
   document.getElementById('id_sumDaysMonthsYears_separator').style.visibility = "visible";
   
-  var alreadyDays = document.getElementById('id_sumDaysMonthsYears_result_days').innerHTML;
-  var alreadyMonths = document.getElementById('id_sumDaysMonthsYears_result_months').innerHTML;
-  var alreadyYears = document.getElementById('id_sumDaysMonthsYears_result_years').innerHTML;
-  var nowYears = document.getElementById('id_sumDaysMonthsYears_years').value;
-  var nowMonths = document.getElementById('id_sumDaysMonthsYears_months').value;
-  var nowDays = document.getElementById('id_sumDaysMonthsYears_days').value;
+  let alreadyDays = document.getElementById('id_sumDaysMonthsYears_result_days').innerHTML;
+  let alreadyMonths = document.getElementById('id_sumDaysMonthsYears_result_months').innerHTML;
+  let alreadyYears = document.getElementById('id_sumDaysMonthsYears_result_years').innerHTML;
+  let nowYears = document.getElementById('id_sumDaysMonthsYears_years').value;
+  let nowMonths = document.getElementById('id_sumDaysMonthsYears_months').value;
+  let nowDays = document.getElementById('id_sumDaysMonthsYears_days').value;
   if (nowYears == "") { nowYears = 0; }
   if (nowMonths == "") { nowMonths = 0; }
   if (nowDays == "") { nowDays = 0; }
-  var years = ((alreadyYears*1) + (nowYears*1));
-  var months = ((alreadyMonths*1) + (nowMonths*1));
-  var days = ((alreadyDays*1) + (nowDays*1));
+  let years = ((alreadyYears*1) + (nowYears*1));
+  let months = ((alreadyMonths*1) + (nowMonths*1));
+  let days = ((alreadyDays*1) + (nowDays*1));
   while (days > 29) {
     days -= 30;
     months += 1;
@@ -177,11 +180,11 @@ function sumDaysMonthsYears() {
   document.getElementById('id_sumDaysMonthsYears_result_months').innerHTML = months;
   document.getElementById('id_sumDaysMonthsYears_result_days').innerHTML = days;
   
-  var tblBody = document.getElementById('id_sumDaysMonthsYears').tBodies[0];
-  var newRow = tblBody.insertRow(-1);
-  var newCell0 = newRow.insertCell(0);
-  var newCell1 = newRow.insertCell(1);
-  var newCell2 = newRow.insertCell(2);
+  let tblBody = document.getElementById('id_sumDaysMonthsYears').tBodies[0];
+  let newRow = tblBody.insertRow(-1);
+  let newCell0 = newRow.insertCell(0);
+  let newCell1 = newRow.insertCell(1);
+  let newCell2 = newRow.insertCell(2);
   newCell0.align = 'center';
   newCell1.align = 'center';
   newCell2.align = 'center';
@@ -200,6 +203,7 @@ function sumDaysMonthsYears() {
   return;
 }
 
+// Hide or show the main bodies
 function changeBottom(id) {
   if (document.getElementById(id).style.display == "inline") {
     document.getElementById(id).style.display = "none"
@@ -209,6 +213,7 @@ function changeBottom(id) {
   return;
 }
 
+// keyPress event handler
 function keyPress(event, who) {
   if (event.keyCode == 27) {
     hideAll();
@@ -223,6 +228,7 @@ function keyPress(event, who) {
   return;
 }
 
+// Hides all main div bodies
 function hideAll() {
   changeBottom('id_yearsMonthsDaysToDays');
   changeBottom('id_daysToYearsMonthsDays');
@@ -275,17 +281,18 @@ function calcFirstLastINSS(first, last) {
  
 }
 
+// Main function. Calculates the period
 function getPeriod() {
-  var firstDate = document.getElementById('id_fistDateLastDate_beginning').value;
-  var lastDate = document.getElementById('id_fistDateLastDate_ending').value;
-  var text = calcFirstLast(firstDate, lastDate);
+  let firstDate = document.getElementById('id_fistDateLastDate_beginning').value;
+  let lastDate = document.getElementById('id_fistDateLastDate_ending').value;
+  let text = calcFirstLast(firstDate, lastDate);
   if (text == "-#") {
     alert("Data inválida");
     return;
     }
-  var returned = text.split(";");
-  var returnedCompleteDate = returned[1].split("/");
-  var textToWrite = returnedCompleteDate[0] + " anos, " + returnedCompleteDate[1] + " meses e " + returnedCompleteDate[2] + " dias";
+  let returned = text.split(";");
+  let returnedCompleteDate = returned[1].split("/");
+  let textToWrite = returnedCompleteDate[0] + " anos, " + returnedCompleteDate[1] + " meses e " + returnedCompleteDate[2] + " dias";
   textToWrite = textToWrite.replace("11", "DFgdfgdSFGdfgasdfsdf");
   textToWrite = textToWrite.replace("1 dias", "1 dia");
   textToWrite = textToWrite.replace("1 meses", "1 mês");
@@ -299,10 +306,10 @@ function getPeriod() {
     lastDate = lastDate.substring(0, 2) + "/" + lastDate.substring(2, 4) + "/" + lastDate.substring(4, 8);
   }
 
-  var tblBody = document.getElementById('id_fistDateLastDate_table_periods').tBodies[0];
-  var newRow = tblBody.insertRow(-1);
-  var newCell0 = newRow.insertCell(0);
-  var newInput = document.createElement('input');
+  let tblBody = document.getElementById('id_fistDateLastDate_table_periods').tBodies[0];
+  let newRow = tblBody.insertRow(-1);
+  let newCell0 = newRow.insertCell(0);
+  let newInput = document.createElement('input');
   newInput.type = 'checkbox';
   newInput.value = returned[0];
   newInput.id = checkBoxCount;
@@ -311,21 +318,21 @@ function getPeriod() {
   //newInput.setAttribute('checked', 'checked');
   //I can't make it work with IE :|
   
-  var lastInput = document.createElement('INPUT');
+  let lastInput = document.createElement('INPUT');
   lastInput.setAttribute("type", "text");
   lastInput.setAttribute("size", "12");
   
-  var newCell1 = newRow.insertCell(1);
-  var newCell2 = newRow.insertCell(2);
-  var newCell3 = newRow.insertCell(3);
-  var newCell4 = newRow.insertCell(4);
-  var newCell5 = newRow.insertCell(5);
-  var newCell6 = newRow.insertCell(6);
-  var newCell7 = newRow.insertCell(7);
-  var newCell8 = newRow.insertCell(8);
-  var newCell9 = newRow.insertCell(9);
+  let newCell1 = newRow.insertCell(1);
+  let newCell2 = newRow.insertCell(2);
+  let newCell3 = newRow.insertCell(3);
+  let newCell4 = newRow.insertCell(4);
+  let newCell5 = newRow.insertCell(5);
+  let newCell6 = newRow.insertCell(6);
+  let newCell7 = newRow.insertCell(7);
+  let newCell8 = newRow.insertCell(8);
+  let newCell9 = newRow.insertCell(9);
 
-  var datesToWrite = firstDate + "->" + lastDate;
+  let datesToWrite = firstDate + "->" + lastDate;
 
   newCell0.appendChild(newInput);
   newCell1.appendChild(document.createTextNode(datesToWrite));
@@ -338,8 +345,7 @@ function getPeriod() {
   newCell8.appendChild(document.createTextNode('|'));
   newCell9.appendChild(lastInput);
 
-  document.getElementById(checkBoxCount).checked = "checked";
-
+  document.getElementById(checkBoxCount).checked = true;
   checkBoxCount += 1;
   checkUncheck();
   
@@ -348,34 +354,41 @@ function getPeriod() {
 
 }
 
+// Sum all periods from the dates entered
 function checkUncheck() {
   let counter = 0;
   let sumDays = 0;
   let sumDay = 0;
   let sumMonth = 0;
   let sumYear = 0;
+  
   while (counter < checkBoxCount) {
     if (document.getElementById(counter).checked) {
       sumDays += parseInt(document.getElementById(counter).value);
       hereDays = parseInt(document.getElementById(counter).value);
       hereMonths = 0;
       hereYears = 0;
+	  
       while (hereDays/365 >= 1) {
         hereDays -= 365;
         hereYears += 1;
-        }
+      }
+	  
       while (hereDays/30 >= 1) {
         hereDays -= 30;
         hereMonths += 1;
-        }
-      if (hereMonths==12) {
+      }
+	  
+      if (hereMonths == 12) {
         hereYears += 1;
         hereMonths = 0;
         hereDays = 0;
-        }
-      sumDay += hereDays;
+      }
+      
+	  sumDay += hereDays;
       sumMonth += hereMonths;
       sumYear += hereYears;
+	  
       while (sumDay/30 >= 1) {
         sumDay -= 30;
         sumMonth += 1;
@@ -401,11 +414,10 @@ function checkUncheck() {
   get_concomitant_periods();
 }
 
+// Handles the first-last date calculation (last form)
 function tabToNext(e, who) {
-  // handles the first-last date calculation (last form)
-  
   if (who == "id_fistDateLastDate_beginning" && e.keyCode > 35) {
-    var checkField = document.getElementById('id_fistDateLastDate_beginning').value;
+    let checkField = document.getElementById('id_fistDateLastDate_beginning').value;
     if ((checkField.length == 8 && document.getElementById('id_fistDateLastDate_beginning').value.indexOf('/') < 0) || (checkField.length == 10 && document.getElementById('id_fistDateLastDate_beginning').value.indexOf('/') >= 0)) {
       document.getElementById('id_fistDateLastDate_ending').focus();
       document.getElementById('id_fistDateLastDate_ending').select();
@@ -426,13 +438,15 @@ function tabToNext(e, who) {
   }
 }
 
+// Set focus
 function setFocus() {
   document.getElementById('id_fistDateLastDate_beginning').focus();
 }
 
+// Selects no one of the inserted periods
 function zeroSelection() {
-  var c = document.getElementsByTagName('input');
-  for(var i = 0; i < c.length; i++){
+  let c = document.getElementsByTagName('input');
+  for(let i = 0; i < c.length; i++){
     if (c[i].getAttribute('type') == 'checkbox') {
       c[i].checked = false;
     }
@@ -448,16 +462,18 @@ function insertFromText() {
   document.getElementById('direct_input').style = 'display: inline;'
 }
 
+// Let the user pass a lot of text and gets the first two
+// dates per line to calculate the period
 function calculateFromText() {
   document.getElementById('direct_input').style = 'display: none;'
-  var wholetxt = document.getElementById('txt_for_direct_input').value;
+  let wholetxt = document.getElementById('txt_for_direct_input').value;
   
   txt_array = wholetxt.split(/\r?\n/g);
 
-  for (var i = 0; i < txt_array.length; i++) {
+  for (let i = 0; i < txt_array.length; i++) {
     // 2 formats allowed
-    var matches1 = txt_array[i].match(/\d{2}\/\d{2}\/\d{4}/g);
-    var matches2 = txt_array[i].match(/\d{8}/g);
+    let matches1 = txt_array[i].match(/\d{2}\/\d{2}\/\d{4}/g);
+    let matches2 = txt_array[i].match(/\d{8}/g);
     
     if (matches1 && matches1.length >= 2) {
       document.getElementById('id_fistDateLastDate_beginning').value = matches1[0];
@@ -475,7 +491,7 @@ function calculateFromText() {
 
 // Look out for concomitant periods
 function get_concomitant_periods() {
-	var dates = [];
+	let dates = [];
 	let tds = document.querySelectorAll('td');
 	
 	for (let i = 0; i < tds.length; i++) {
@@ -489,7 +505,7 @@ function get_concomitant_periods() {
 	}
 	//console.log(dates.length);
 	
-	let el = document.getElementById('concomitances');
+	let el = document.getElementById('id_concomitances');
 	el.innerHTML = '';
 	let first = true;
 	
@@ -510,9 +526,9 @@ function get_concomitant_periods() {
 					el.innerHTML = "<br><b>Concomitâncias:</b><br>"
 				}
 				el.innerHTML += '<br>' +
-								this_initial.ddmmyyyy() + ' -> ' +
+								this_initial.ddmmyyyy() + '->' +
 								this_final.ddmmyyyy() + ' <i>é concomitante com</i> ' +
-								checking_initial.ddmmyyyy() + ' -> ' +
+								checking_initial.ddmmyyyy() + '->' +
 								checking_final.ddmmyyyy();
 			}
 		}
@@ -520,6 +536,7 @@ function get_concomitant_periods() {
 	return;
 }
 
+// A new toString method. Returns dd/mm/yyyy.
 Date.prototype.ddmmyyyy = function() {
   let mm = this.getMonth() + 1; // getMonth() is zero-based
   let dd = this.getDate();
