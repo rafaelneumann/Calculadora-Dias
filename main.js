@@ -67,7 +67,7 @@ function toDays(yearsMonthsDays) {
 // A number of days to years, months and days
 function toDate(days) {
   days *= 1; // ensures it is a number
-  if (days > 200000) {
+  if (days > 100000000) {
     alert("Value is too big.\nBypass me, if you can.");
     return "";
   } else if (days == 0) {
@@ -509,27 +509,34 @@ function get_concomitant_periods() {
 	el.innerHTML = '';
 	let first = true;
 	
-	for (let i = 0; i < dates.length - 1; i++) {
+	for (let i = 0; i < dates.length; i++) {
 		let this_initial = dates[i][0];
 		let this_final = dates[i][1];
+		let first_found_for_j = true;
 		
-		for (let j = i + 1; j < dates.length; j++) {
+		for (let j = 0; j < dates.length; j++) {
+			if (i == j) {
+				continue;
+			}
 			let checking_initial = dates[j][0];
 			let checking_final = dates[j][1];
-			
-			//console.log('checking: ' + checking_initial + ' / ' + checking_final + ' --- ' + this_initial + ' / ' + this_final);
-			//console.log(i + ' ' + j);
 			
 			if ((checking_initial >= this_initial && checking_initial <= this_final) || (checking_final >= this_initial && checking_final <= this_final)){
 				if (first) {
 					first = false;
 					el.innerHTML = "<br><b>Concomitâncias:</b><br>"
 				}
-				el.innerHTML += '<br>' +
-								this_initial.ddmmyyyy() + '->' +
-								this_final.ddmmyyyy() + ' <i>é concomitante com</i> ' +
-								checking_initial.ddmmyyyy() + '->' +
-								checking_final.ddmmyyyy();
+				if (first_found_for_j) {
+					el.innerHTML += '<br>' + this_initial.ddmmyyyy() + '->' +
+									this_final.ddmmyyyy() + ' <i>é concomitante com</i> ' +
+									checking_initial.ddmmyyyy() + '->' +
+									checking_final.ddmmyyyy();
+					first_found_for_j = false;
+				} else {
+					el.innerHTML += ' <i>e com</i> ' +
+									checking_initial.ddmmyyyy() + '->' +
+									checking_final.ddmmyyyy();
+				}
 			}
 		}
 	}
