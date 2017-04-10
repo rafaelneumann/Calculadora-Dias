@@ -511,7 +511,7 @@ function get_concomitant_periods() {
 				}
 				el.innerHTML += '<br>' +
 								this_initial.ddmmyyyy() + ' -> ' +
-								this_final.ddmmyyyy() + ' é concomitante com ' +
+								this_final.ddmmyyyy() + ' <i>é concomitante com</i> ' +
 								checking_initial.ddmmyyyy() + ' -> ' +
 								checking_final.ddmmyyyy();
 			}
