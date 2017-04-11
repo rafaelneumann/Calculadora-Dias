@@ -37,7 +37,7 @@
           <tr><td align="center"><input type="text" id="id_sumDaysMonthsYears_years" onkeyup="tabToNext(event, this.id);" class="textBox_small"/></td><td align="center"><input type="text" id="id_sumDaysMonthsYears_months" onkeyup="tabToNext(event, this.id);" class="textBox_small"/></td><td align="center"><input type="text" id="id_sumDaysMonthsYears_days" class="textBox_small"/></td><td><input type="button" style="width:80px;" value="Somar" onclick="sumDaysMonthsYears();"/></td></tr>
           <tr><td align="center">anos</td><td align="center">meses</td><td align="center">dias</td><td></td></tr>
           <tr><td align="center" id="id_sumDaysMonthsYears_result_years">0</td><td align="center" id="id_sumDaysMonthsYears_result_months">0</td><td align="center" id="id_sumDaysMonthsYears_result_days">0</td><td>(Total)</td></tr>
-          <tr id="id_sumDaysMonthsYears_separator" style="visibility:hidden;"><td colspan="4">-------------------</td></tr>
+          <tr id="id_sumDaysMonthsYears_separator" style="visibility:hidden;"><td colspan="4">--------------------------------------------</td></tr>
         </table>
       </form>
     </div>
@@ -46,8 +46,8 @@
     <div id="id_fistDateLastDate" style="display:inline;">
       <form id="id_fistDateLastDate_form" onkeydown="keyPress(event, this.id);">
         <table>
-          <tr><td align="left">Data inicial:</td><td><input type="text" class="textBox_big" id="id_fistDateLastDate_beginning" onkeyup="tabToNext(event, this.id);" /></td><td></td><td></td><td></td></tr>
-          <tr><td align="left">Data final:</td><td><input type="text" class="textBox_big" id="id_fistDateLastDate_ending" /></td><td><input type="button" value="Calcular" onclick="getPeriod()"/></td><td><input type="button" value="Atualizar" onclick="checkUncheck();" /></td><td><input type="button" value="Inserir" onclick="insertFromText();"/></td></tr>
+          <tr><td align="left">Data inicial:</td><td><input type="text" class="textBox_big" id="id_fistDateLastDate_beginning" onkeyup="tabToNext(event, this.id);" placeholder="ddmmaaaa" /></td><td></td><td></td><td></td></tr>
+          <tr><td align="left">Data final:</td><td><input type="text" class="textBox_big" id="id_fistDateLastDate_ending" placeholder="ddmmaaaa" /></td><td><input type="button" value="Calcular" onclick="getPeriod()"/></td><td><input type="button" value="Atualizar" onclick="checkUncheck();" /></td><td><input type="button" value="Inserir" onclick="insertFromText();"/></td></tr>
           <tr><td colspan="5"><small>Formato: ddmmaaaa ou dd/mm/aaaa.</small></td></tr>
         </table>
       </form>

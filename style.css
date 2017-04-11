@@ -1,3 +1,8 @@
+.highlight {
+	color: red;
+	font-weight: bold;
+}
+
 body {
 	margin-left: 100px;
 	margin-right: 100px;
@@ -104,4 +109,5 @@ input[type="text"]:focus {
 	width: 280px;
 	background-color: rgb(240, 240, 240);
 	border-radius: 10%;
+	text-align: center;
 }
