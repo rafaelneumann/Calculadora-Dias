@@ -558,7 +558,6 @@ function highlight_others(event) {
 
 function dehighlight_others(event) {
 	let matches = txt_array.match(/\d{2}\/\d{2}\/\d{4}-&gt\;\d{2}\/\d{2}\/\d{4}/g);
-	let matches = txt_array.match(/\d{2}\/\d{2}\/\d{4}-&gt\;\d{2}\/\d{2}\/\d{4}/g);
 	for (let i = 0; i < matches.length; i++) {
 		dehighlight(matches[i]);
 	}
