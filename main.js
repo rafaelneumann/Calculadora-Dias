@@ -454,7 +454,6 @@ function zeroSelection() {
 	}
 
 checkUncheck();
-
 return;
 }
 
@@ -559,8 +558,10 @@ function highlight_others(event) {
 
 function dehighlight_others(event) {
 	let matches = txt_array.match(/\d{2}\/\d{2}\/\d{4}-&gt\;\d{2}\/\d{2}\/\d{4}/g);
-	dehighlight(matches[0]);
-	dehighlight(matches[1]);
+	let matches = txt_array.match(/\d{2}\/\d{2}\/\d{4}-&gt\;\d{2}\/\d{2}\/\d{4}/g);
+	for (let i = 0; i < matches.length; i++) {
+		dehighlight(matches[i]);
+	}
 }
 
 // A new toString method. Returns dd/mm/yyyy.
