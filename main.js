@@ -523,7 +523,7 @@ function get_concomitant_periods() {
 		let checking_initial = dates[j][0];
 		let checking_final = dates[j][1];
 		
-		if ((checking_initial >= this_initial && checking_initial <= this_final) || (checking_final >= this_initial && checking_final <= this_final)){
+		if ((checking_initial >= this_initial && checking_initial <= this_final) || (checking_final >= this_initial && checking_final <= this_final) || (checking_initial <= this_initial && checking_final >= this_final)) {
 			if (first) {
 				first = false;
 				txt_to_html = "<span><br><b>Concomitâncias:</b><br></span>"
@@ -552,8 +552,9 @@ function get_concomitant_periods() {
 function highlight_others(event) {
 	txt_array = event.target.innerHTML;
 	let matches = txt_array.match(/\d{2}\/\d{2}\/\d{4}-&gt\;\d{2}\/\d{2}\/\d{4}/g);
-	highlight(matches[0]);
-	highlight(matches[1]);
+	for (let i = 0; i < matches.length; i++) {
+		highlight(matches[i]);
+	}
 }
 
 function dehighlight_others(event) {
