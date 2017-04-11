@@ -539,11 +539,11 @@ function get_concomitant_periods() {
 								checking_final.ddmmyyyy();
 				}
 			}
-			//el.innerHTML += "</span>";
 		}
-		txt_to_html += "<br></span>";
+		if (!first_found_for_j) {
+			txt_to_html += "<br></span>";
+		}
 	}
-    //el.innerHTML += "</span>";
 	el.innerHTML += txt_to_html;
 	return;
 }
