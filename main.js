@@ -181,6 +181,10 @@ function sumDaysMonthsYears() {
 	document.getElementById('id_sumDaysMonthsYears_result_months').innerHTML = months;
 	document.getElementById('id_sumDaysMonthsYears_result_days').innerHTML = days;
 	
+	// atualiza o total dos anos, meses e dias para dias
+	let justDays = (years * 365) + (months * 30) + days;
+	document.getElementById('id_total_soma_de_anos_meses_dias').innerHTML = '- Total - ' +  justDays + ' dias';
+		
 	let tblBody = document.getElementById('id_sumDaysMonthsYears').tBodies[0];
 	let newRow = tblBody.insertRow(-1);
 	let newCell0 = newRow.insertCell(0);
