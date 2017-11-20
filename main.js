@@ -1,6 +1,7 @@
 // Global variables
 var checkBoxCount = 0;
 var concomitances = [];
+var row_count = 0;
 
 // Colors the title randomly with red and green
 function colorMe(who) {
@@ -47,7 +48,7 @@ function calcFirstLast(first, last) {
 	if (days < 0) {
 	return "-#";
 	} else {
-	return days + ";" + dateYear + "/" + dateMonth + "/" + dateDay;
+		return days + ";" + dateYear + "/" + dateMonth + "/" + dateDay;
 	}
 }
 
@@ -57,10 +58,10 @@ function toDays(yearsMonthsDays) {
 	let result = (x[0] * 365) + (x[1] * 30) + (x[2] * 1);
 	let result2 = 0;
 	if (x[0] > 0 && x[1] == 0 && x[2] == 0) {
-	let y = x[0] - 1;
-	let m = (x[1] * 1) + 12;
-	result2 = (y * 365) + (m * 30) + (x[2] * 1);
-	return ("De " + result2 + " a " + result + " dias<br/>Prefira " + result);
+		let y = x[0] - 1;
+		let m = (x[1] * 1) + 12;
+		result2 = (y * 365) + (m * 30) + (x[2] * 1);
+		return ("De " + result2 + " a " + result + " dias<br/>Prefira " + result);
 	}
 	return result;
 }
@@ -211,9 +212,9 @@ function sumDaysMonthsYears() {
 // Hide or show the main bodies
 function changeBottom(id) {
 	if (document.getElementById(id).style.display == "inline") {
-	document.getElementById(id).style.display = "none"
+		document.getElementById(id).style.display = "none"
 	} else {
-	document.getElementById(id).style.display = "inline"
+		document.getElementById(id).style.display = "inline"
 	}
 	return;
 }
@@ -221,14 +222,14 @@ function changeBottom(id) {
 // keyPress event handler
 function keyPress(event, who) {
 	if (event.keyCode == 27) {
-	hideAll();
+		hideAll();
 	}
-	if (event.keyCode == 13)
+		if (event.keyCode == 13)
 	{
-	if (who == "id_daysToYearsMonthsDays_days") { daysToYearsMonthsDays(); }
-	if (who == "div_yearsMonthsDaysToDays") { yearsMonthsDaystoDays(); }
-	if (who == "id_fistDateLastDate_form") { getPeriod(); }
-	if (who == "id_sumDaysMonthsYears_form") { sumDaysMonthsYears(); }
+		if (who == "id_daysToYearsMonthsDays_days") { daysToYearsMonthsDays(); }
+		if (who == "div_yearsMonthsDaysToDays") { yearsMonthsDaystoDays(); }
+		if (who == "id_fistDateLastDate_form") { getPeriod(); }
+		if (who == "id_sumDaysMonthsYears_form") { sumDaysMonthsYears(); }
 	}
 	return;
 }
@@ -286,14 +287,28 @@ function calcFirstLastINSS(first, last) {
  
 }
 
+// Hides the line funcion
+function hideRow(id) {
+	let el = document.getElementById("row" + id);
+	el.setAttribute('class', 'deleted');
+	
+	let tds = el.querySelectorAll('td');
+	tds[1].innerHTML = '';
+	
+	let el2 = document.getElementById(id);
+	el2.checked = false;
+	checkUncheck();
+	return;
+}
+
 // Main function. Calculates the period
 function getPeriod() {
 	let firstDate = document.getElementById('id_fistDateLastDate_beginning').value;
 	let lastDate = document.getElementById('id_fistDateLastDate_ending').value;
 	let text = calcFirstLast(firstDate, lastDate);
 	if (text == "-#") {
-	alert("Data inválida");
-	return;
+		alert("Data inválida");
+		return;
 	}
 	let returned = text.split(";");
 	let returnedCompleteDate = returned[1].split("/");
@@ -307,8 +322,8 @@ function getPeriod() {
 	textToWriteINSS = calcFirstLastINSS(firstDate, lastDate)
 	
 	if ((firstDate.indexOf('/') == -1) & (lastDate.indexOf('/') == -1)) {
-	firstDate = firstDate.substring(0, 2) + "/" + firstDate.substring(2, 4) + "/" + firstDate.substring(4, 8);
-	lastDate = lastDate.substring(0, 2) + "/" + lastDate.substring(2, 4) + "/" + lastDate.substring(4, 8);
+		firstDate = firstDate.substring(0, 2) + "/" + firstDate.substring(2, 4) + "/" + firstDate.substring(4, 8);
+		lastDate = lastDate.substring(0, 2) + "/" + lastDate.substring(2, 4) + "/" + lastDate.substring(4, 8);
 	}
 
 	let tblBody = document.getElementById('id_fistDateLastDate_table_periods').tBodies[0];
@@ -323,6 +338,10 @@ function getPeriod() {
 	//newInput.setAttribute('checked', 'checked');
 	//I can't make it work with IE :|
 	
+	newRow.setAttribute("class", "notdeleted");
+	newRow.setAttribute("id", "row" + row_count.toString());
+	row_count++;
+	
 	let lastInput = document.createElement('INPUT');
 	lastInput.setAttribute("type", "text");
 	lastInput.setAttribute("size", "12");
@@ -336,8 +355,14 @@ function getPeriod() {
 	let newCell7 = newRow.insertCell(7);
 	let newCell8 = newRow.insertCell(8);
 	let newCell9 = newRow.insertCell(9);
+	let newCell10 = newRow.insertCell(10);
 
 	let datesToWrite = firstDate + "->" + lastDate;
+	
+	let deleteInput = document.createElement('INPUT');
+	deleteInput.setAttribute('onclick', 'hideRow("' + (row_count - 1).toString() + '")');
+	deleteInput.setAttribute('type', 'Button');
+	deleteInput.setAttribute('value', 'Excluir');
 
 	newCell0.appendChild(newInput);
 	newCell1.appendChild(document.createTextNode(datesToWrite));
@@ -349,6 +374,7 @@ function getPeriod() {
 	newCell7.appendChild(document.createTextNode(textToWriteINSS));
 	newCell8.appendChild(document.createTextNode('|'));
 	newCell9.appendChild(lastInput);
+	newCell10.appendChild(deleteInput);
 
 	document.getElementById(checkBoxCount).checked = true;
 	checkBoxCount += 1;
@@ -367,43 +393,43 @@ function checkUncheck() {
 	let sumMonth = 0;
 	let sumYear = 0;
 	
-	while (counter < checkBoxCount) {
-	if (document.getElementById(counter).checked) {
-	sumDays += parseInt(document.getElementById(counter).value);
-	hereDays = parseInt(document.getElementById(counter).value);
-	hereMonths = 0;
-	hereYears = 0;
-	
-	while (hereDays/365 >= 1) {
-	hereDays -= 365;
-	hereYears += 1;
-	}
-	
-	while (hereDays/30 >= 1) {
-	hereDays -= 30;
-	hereMonths += 1;
-	}
-	
-	if (hereMonths == 12) {
-	hereYears += 1;
-	hereMonths = 0;
-	hereDays = 0;
-	}
-	
-	sumDay += hereDays;
-	sumMonth += hereMonths;
-	sumYear += hereYears;
-	
-	while (sumDay/30 >= 1) {
-	sumDay -= 30;
-	sumMonth += 1;
-	}
-	while (sumMonth/12 >= 1) {
-	sumMonth -= 12;
-	sumYear += 1;
-	}
-	}
-	counter += 1;
+		while (counter < checkBoxCount) {
+			if (document.getElementById(counter).checked) {
+				sumDays += parseInt(document.getElementById(counter).value);
+				hereDays = parseInt(document.getElementById(counter).value);
+				hereMonths = 0;
+				hereYears = 0;
+			
+			while (hereDays/365 >= 1) {
+				hereDays -= 365;
+				hereYears += 1;
+			}
+			
+			while (hereDays/30 >= 1) {
+				hereDays -= 30;
+				hereMonths += 1;
+			}
+			
+			if (hereMonths == 12) {
+				hereYears += 1;
+				hereMonths = 0;
+				hereDays = 0;
+			}
+			
+			sumDay += hereDays;
+			sumMonth += hereMonths;
+			sumYear += hereYears;
+			
+			while (sumDay/30 >= 1) {
+			sumDay -= 30;
+			sumMonth += 1;
+			}
+			while (sumMonth/12 >= 1) {
+			sumMonth -= 12;
+			sumYear += 1;
+			}
+		}
+		counter += 1;
 	}
 	 
 	let sumDays2 = (sumDay) + (sumMonth*30) + (sumYear*365);
@@ -453,8 +479,8 @@ function zeroSelection() {
 	let c = document.getElementsByTagName('input');
 	for(let i = 0; i < c.length; i++){
 	if (c[i].getAttribute('type') == 'checkbox') {
-	c[i].checked = false;
-	}
+		c[i].checked = false;
+		}
 	}
 
 checkUncheck();

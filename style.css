@@ -17,6 +17,10 @@ b {
 	margin-right: auto;
 }
 
+.deleted {
+	display: none;
+}
+
 .textBox_small { width: 30px; }
 .textBox_normal { width: 60px; }
 .textBox_big { width: 90px; }
