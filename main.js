@@ -498,6 +498,7 @@ function calculateFromText() {
 	document.getElementById('direct_input').style = 'display: none;'
 	let wholetxt = document.getElementById('txt_for_direct_input').value;
 	
+	wholetxt = wholetxt.replace(/\nData\sFim/, ' ');
 	txt_array = wholetxt.split(/\r?\n/g);
 
 	for (let i = 0; i < txt_array.length; i++) {
