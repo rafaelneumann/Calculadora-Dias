@@ -70,6 +70,9 @@
 	  <div id="id_selectNone" onclick="zeroSelection();">Zerar seleção</div>
 	  <div id="id_concomitances"></div>
     </div>
-    
+    <div class="header_div" id="modificar_titulo">
+	  <b onclick="changeBottom('id_modificar_titulo');" onmouseover="colorMe(this);" onmouseout="decolorMe(this);">Modificar título da página</b>
+          <input type="text" id="id_modificar_titulo" style="display:none;" oninput="document.title = getElementById('id_modificar_titulo').value;" /></p>
+    </div>
   </body>
 </html>
