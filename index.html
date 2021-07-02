@@ -1,78 +1,141 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <title>Calculadora de Dias</title>
-	<link href='http://fonts.googleapis.com/css?family=Josefin+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src='main.js'></script>
-  </head>
-  <body onload="setFocus();" onkeydown="keyPress(event, this);">
-    <div class="header_div" id="div_yearsMonthsDaysToDays"><b onclick="changeBottom('id_yearsMonthsDaysToDays');" onmouseover="colorMe(this);" onmouseout="decolorMe(this);">De anos, meses e dias para dias</b>
-      <form onkeydown="keyPress(event, 'div_yearsMonthsDaysToDays');">
-        <table style="display:none;" id="id_yearsMonthsDaysToDays">
-          <tr><td width="30" align="center"><input type="text" id="id_yearsMonthsDaysToDays_years" class="textBox_small"/></td><td width="30" align="center"><input type="text" id="id_yearsMonthsDaysToDays_months" class="textBox_small"/></td><td width="30" align="center"><input type="text" id="id_yearsMonthsDaysToDays_days" class="textBox_small"/></td><td><input type="button" value="Calcular" onclick="yearsMonthsDaystoDays();"/></td></tr>
-          <tr><td align="center">anos</td><td align="center">meses</td><td align="center">dias</td><td></td></tr>
-          <tr><td colspan="4" align="center" id="id_yearsMonthsDaysToDays_result">0 dias</td></tr>
-        </table>
-      </form>
-    </div>
-    <br/>
-    <div class="header_div"><b onclick="changeBottom('id_daysToYearsMonthsDays');" onmouseover="colorMe(this);" onmouseout="decolorMe(this);">De dias para anos, meses e dias</b>
-      <form onsubmit="return false;">
-        <table style="display:none;" id="id_daysToYearsMonthsDays">
-          <tr>
-            <td align="right"><input type="text" id="id_daysToYearsMonthsDays_days" class="textBox_normal" onkeydown="keyPress(event, this.id);"/></td>
-            <td align="left" style="width:40px;">dias</td>
-            <td><input type="button" value="Calcular" onclick="daysToYearsMonthsDays();"/></td>
-          </tr>
-          <tr><td colspan="3" align="center" id="id_daysToYearsMonthsDays_result">0 dias</td></tr>
-        </table>
-      </form>
-    </div>
-    <br/>
-    <div class="header_div"><b onclick="changeBottom('id_sumDaysMonthsYears');" onmouseover="colorMe(this);" onmouseout="decolorMe(this);">Somar anos, meses e dias</b>
-      <form id="id_sumDaysMonthsYears_form" onsubmit="return false;" onkeydown="keyPress(event, this.id);">
-        <table style="display:none;" id="id_sumDaysMonthsYears">
-          <tr><td align="center"><input type="text" id="id_sumDaysMonthsYears_years" onkeyup="tabToNext(event, this.id);" class="textBox_small"/></td><td align="center"><input type="text" id="id_sumDaysMonthsYears_months" onkeyup="tabToNext(event, this.id);" class="textBox_small"/></td><td align="center"><input type="text" id="id_sumDaysMonthsYears_days" class="textBox_small"/></td><td><input type="button" style="width:80px;" value="Somar" onclick="sumDaysMonthsYears();"/></td></tr>
-          <tr><td align="center">anos</td><td align="center">meses</td><td align="center">dias</td><td></td></tr>
-          <tr><td align="center" id="id_sumDaysMonthsYears_result_years">0</td><td align="center" id="id_sumDaysMonthsYears_result_months">0</td><td align="center" id="id_sumDaysMonthsYears_result_days">0</td><td id="id_total_soma_de_anos_meses_dias">(Total)</td></tr>
-          <tr id="id_sumDaysMonthsYears_separator" style="visibility:hidden;"><td colspan="4">--------------------------------------------</td></tr>
-        </table>
-      </form>
-    </div>
-    <br/>
-    <div class="header_div"><b onclick="changeBottom('id_fistDateLastDate');" onmouseover="colorMe(this);" onmouseout="decolorMe(this);">Calcular tempo</b></div>
-    <div id="id_fistDateLastDate" style="display:inline;">
-      <form id="id_fistDateLastDate_form" onkeydown="keyPress(event, this.id);">
-        <table>
-          <tr><td align="left">Data inicial:</td><td><input type="text" class="textBox_big" id="id_fistDateLastDate_beginning" onkeyup="tabToNext(event, this.id);" placeholder="ddmmaaaa" /></td><td></td><td></td><td></td></tr>
-          <tr><td align="left">Data final:</td><td><input type="text" class="textBox_big" id="id_fistDateLastDate_ending" placeholder="ddmmaaaa" /></td><td><input type="button" value="Calcular" onclick="getPeriod()"/></td><td><input type="button" value="Atualizar" onclick="checkUncheck();" /></td><td><input type="button" value="Inserir" onclick="insertFromText();"/></td></tr>
-          <tr><td colspan="5"><small>Formato: ddmmaaaa ou dd/mm/aaaa.</small></td></tr>
-        </table>
-      </form>
-      <div id='direct_input'><textarea rows='6' cols='52' id='txt_for_direct_input' placeholder='O app procurará por duas datas para cada linha de texto, sendo a primeira a data de início e a outra a data final. Ex: de 01/01/2010 a 15/19/2015. Se houver outras datas depois das duas primeiras, elas serão ignoradas.'></textarea><input type="button" value="OK" onclick="calculateFromText();"/></div>
-      <div id="id_results"></div>
-	  <table id="id_fistDateLastDate_table_periods">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>Calculadora de Dias</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="text/javascript" src='main.js'></script>
+</head>
+
+<body onload="setFocus();" onkeydown="keyPress(event, this);">
+  <div class="header_div" id="div_yearsMonthsDaysToDays"><b onclick="changeBottom('id_yearsMonthsDaysToDays');"
+      onmouseover="colorMe(this);" onmouseout="decolorMe(this);">De anos, meses e dias para dias</b>
+    <form onkeydown="keyPress(event, 'div_yearsMonthsDaysToDays');">
+      <table style="display:none;" id="id_yearsMonthsDaysToDays">
         <tr>
+          <td width="30" align="center"><input type="text" id="id_yearsMonthsDaysToDays_years" class="textBox_small" />
+          </td>
+          <td width="30" align="center"><input type="text" id="id_yearsMonthsDaysToDays_months" class="textBox_small" />
+          </td>
+          <td width="30" align="center"><input type="text" id="id_yearsMonthsDaysToDays_days" class="textBox_small" />
+          </td>
+          <td><input type="button" value="Calcular" onclick="yearsMonthsDaystoDays();" /></td>
+        </tr>
+        <tr>
+          <td align="center">anos</td>
+          <td align="center">meses</td>
+          <td align="center">dias</td>
           <td></td>
-          <td align="center">Período</td>
-          <td>|</td>
-          <td align="center">Anos, meses e dias</td>
-          <td>&#60;&#62;</td>
-          <td align="center">Dias</td>
-          <td>|</td>
-          <td align="center">à INSS</td>
-		  <td>|</td>
-          <td align="center">Descrição</td>
+        </tr>
+        <tr>
+          <td colspan="4" align="center" id="id_yearsMonthsDaysToDays_result">0 dias</td>
         </tr>
       </table>
-	  <div id="id_selectNone" onclick="zeroSelection();">Zerar seleção</div>
-	  <div id="id_concomitances"></div>
-    </div>
-    <div class="header_div" id="modificar_titulo" style="margin-top: 30px;">
-	  <b onclick="changeBottom('id_modificar_titulo');" onmouseover="colorMe(this);" onmouseout="decolorMe(this);">Modificar título da página</b>
-          <input type="text" id="id_modificar_titulo" style="display:none;" oninput="document.title = getElementById('id_modificar_titulo').value;" /></p>
-    </div>
-  </body>
+    </form>
+  </div>
+  <br />
+  <div class="header_div"><b onclick="changeBottom('id_daysToYearsMonthsDays');" onmouseover="colorMe(this);"
+      onmouseout="decolorMe(this);">De dias para anos, meses e dias</b>
+    <form onsubmit="return false;">
+      <table style="display:none;" id="id_daysToYearsMonthsDays">
+        <tr>
+          <td align="right"><input type="text" id="id_daysToYearsMonthsDays_days" class="textBox_normal"
+              onkeydown="keyPress(event, this.id);" /></td>
+          <td align="left" style="width:40px;">dias</td>
+          <td><input type="button" value="Calcular" onclick="daysToYearsMonthsDays();" /></td>
+        </tr>
+        <tr>
+          <td colspan="3" align="center" id="id_daysToYearsMonthsDays_result">0 dias</td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <br />
+  <div class="header_div"><b onclick="changeBottom('id_sumDaysMonthsYears');" onmouseover="colorMe(this);"
+      onmouseout="decolorMe(this);">Somar anos, meses e dias</b>
+    <form id="id_sumDaysMonthsYears_form" onsubmit="return false;" onkeydown="keyPress(event, this.id);">
+      <table style="display:none;" id="id_sumDaysMonthsYears">
+        <tr>
+          <td align="center"><input type="text" id="id_sumDaysMonthsYears_years" onkeyup="tabToNext(event, this.id);"
+              class="textBox_small" /></td>
+          <td align="center"><input type="text" id="id_sumDaysMonthsYears_months" onkeyup="tabToNext(event, this.id);"
+              class="textBox_small" /></td>
+          <td align="center"><input type="text" id="id_sumDaysMonthsYears_days" class="textBox_small" /></td>
+          <td><input type="button" style="width:80px;" value="Somar" onclick="sumDaysMonthsYears();" /></td>
+        </tr>
+        <tr>
+          <td align="center">anos</td>
+          <td align="center">meses</td>
+          <td align="center">dias</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td align="center" id="id_sumDaysMonthsYears_result_years">0</td>
+          <td align="center" id="id_sumDaysMonthsYears_result_months">0</td>
+          <td align="center" id="id_sumDaysMonthsYears_result_days">0</td>
+          <td id="id_total_soma_de_anos_meses_dias">(Total)</td>
+        </tr>
+        <tr id="id_sumDaysMonthsYears_separator" style="visibility:hidden;">
+          <td colspan="4">--------------------------------------------</td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <br />
+  <div class="header_div"><b onclick="changeBottom('id_fistDateLastDate');" onmouseover="colorMe(this);"
+      onmouseout="decolorMe(this);">Calcular tempo</b></div>
+  <div id="id_fistDateLastDate" style="display:inline;">
+    <form id="id_fistDateLastDate_form" onkeydown="keyPress(event, this.id);">
+      <table>
+        <tr>
+          <td align="left">Data inicial:</td>
+          <td><input type="text" class="textBox_big" id="id_fistDateLastDate_beginning"
+              onkeyup="tabToNext(event, this.id);" placeholder="ddmmaaaa" /></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td align="left">Data final:</td>
+          <td><input type="text" class="textBox_big" id="id_fistDateLastDate_ending" placeholder="ddmmaaaa" /></td>
+          <td><input type="button" value="Calcular" onclick="getPeriod()" /></td>
+          <td><input type="button" value="Atualizar" onclick="checkUncheck();" /></td>
+          <td><input type="button" value="Inserir" onclick="insertFromText();" /></td>
+        </tr>
+        <tr>
+          <td colspan="5"><small>Formato: ddmmaaaa ou dd/mm/aaaa.</small></td>
+        </tr>
+      </table>
+    </form>
+    <div id='direct_input'><textarea rows='6' cols='52' id='txt_for_direct_input'
+        placeholder='O app procurará por duas datas para cada linha de texto, sendo a primeira a data de início e a outra a data final. Ex: de 01/01/2010 a 15/19/2015. Se houver outras datas depois das duas primeiras, elas serão ignoradas.'></textarea><input
+        type="button" value="OK" onclick="calculateFromText();" /></div>
+    <div id="id_results"></div>
+    <table id="id_fistDateLastDate_table_periods">
+      <tr>
+        <td></td>
+        <td align="center">Período</td>
+        <td>|</td>
+        <td align="center">Anos, meses e dias</td>
+        <td>&#60;&#62;</td>
+        <td align="center">Dias</td>
+        <td>|</td>
+        <td align="center">à INSS</td>
+        <td>|</td>
+        <td align="center">Descrição</td>
+      </tr>
+    </table>
+    <div id="id_selectNone" onclick="zeroSelection();">Zerar seleção</div>
+    <div id="id_concomitances"></div>
+  </div>
+  <div class="header_div" id="modificar_titulo" style="margin-top: 30px;">
+    <b onclick="changeBottom('id_modificar_titulo');" onmouseover="colorMe(this);"
+      onmouseout="decolorMe(this);">Modificar título da página</b>
+    <input type="text" id="id_modificar_titulo" style="display:none;"
+      oninput="document.title = getElementById('id_modificar_titulo').value;" /></p>
+  </div>
+  <div><small>Licença: MIT.</small></div>
+</body>
+
 </html>
