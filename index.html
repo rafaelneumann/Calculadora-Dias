@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <title>Calculadora de Dias</title>
   <link rel="stylesheet" href="style.css">
-  <script type="text/javascript" src='main.js'></script>
+  <script type="text/javascript" src='main.js' defer></script>
 </head>
 
 <body onload="setFocus();" onkeydown="keyPress(event, this);">
@@ -14,9 +14,9 @@
     <form onkeydown="keyPress(event, 'div_yearsMonthsDaysToDays');">
       <table style="display:none;" id="id_yearsMonthsDaysToDays">
         <tr>
-          <td width="30" align="center"><input type="text" id="id_yearsMonthsDaysToDays_years" class="textBox_small" />
+          <td width="30" align="center"><input type="text" id="id_yearsMonthsDaysToDays_years" class="textBox_small" onkeyup="tabToNext(event, this.id);" />
           </td>
-          <td width="30" align="center"><input type="text" id="id_yearsMonthsDaysToDays_months" class="textBox_small" />
+          <td width="30" align="center"><input type="text" id="id_yearsMonthsDaysToDays_months" class="textBox_small" onkeyup="tabToNext(event, this.id);" />
           </td>
           <td width="30" align="center"><input type="text" id="id_yearsMonthsDaysToDays_days" class="textBox_small" />
           </td>
