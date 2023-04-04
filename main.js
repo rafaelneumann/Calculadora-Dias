@@ -447,38 +447,36 @@ function checkUncheck() {
 
 function tabToNext(e, who) {
 	if (who == "id_fistDateLastDate_beginning" && e.keyCode > 35) {
-	let checkField = document.getElementById('id_fistDateLastDate_beginning').value;
-	if ((checkField.length == 8 && document.getElementById('id_fistDateLastDate_beginning').value.indexOf('/') < 0) || (checkField.length == 10 && document.getElementById('id_fistDateLastDate_beginning').value.indexOf('/') >= 0)) {
-	document.getElementById('id_fistDateLastDate_ending').focus();
-	document.getElementById('id_fistDateLastDate_ending').select();
-	} // double lines -> make it better (later)
+		let checkField = document.getElementById('id_fistDateLastDate_beginning').value;
+		if ((checkField.length == 8 && document.getElementById('id_fistDateLastDate_beginning').value.indexOf('/') < 0) || (checkField.length == 10 && document.getElementById('id_fistDateLastDate_beginning').value.indexOf('/') >= 0)) {
+			document.getElementById('id_fistDateLastDate_ending').focus();
+			document.getElementById('id_fistDateLastDate_ending').select();
+		} // double lines -> make it better (later)
 	}
-	// handles the sum of times (yy-mm-dd) - third form
 	else if (who == 'id_sumDaysMonthsYears_years' && e.keyCode > 35) {
-	if (document.getElementById('id_sumDaysMonthsYears_years').value.length == 2) {
-	document.getElementById('id_sumDaysMonthsYears_months').focus();
-	document.getElementById('id_sumDaysMonthsYears_months').select();
-	}
+		if (document.getElementById('id_sumDaysMonthsYears_years').value.length == 2) {
+			document.getElementById('id_sumDaysMonthsYears_months').focus();
+			document.getElementById('id_sumDaysMonthsYears_months').select();
+		}
 	}
 	else if (who == 'id_sumDaysMonthsYears_months' && e.keyCode > 35) {
-	if (document.getElementById('id_sumDaysMonthsYears_months').value.length == 2) {
-	document.getElementById('id_sumDaysMonthsYears_days').focus();
-	document.getElementById('id_sumDaysMonthsYears_days').select();
-	}
+		if (document.getElementById('id_sumDaysMonthsYears_months').value.length == 2) {
+			document.getElementById('id_sumDaysMonthsYears_days').focus();
+			document.getElementById('id_sumDaysMonthsYears_days').select();
+		}
 	}
 	else if(who == 'id_yearsMonthsDaysToDays_years' && e.keyCode > 35) {
-        if (document.getElementById('id_yearsMonthsDaysToDays_years').value.length == 2) {
-        document.getElementById('id_yearsMonthsDaysToDays_months').focus();
-        document.getElementById('id_yearsMonthsDaysToDays_months').select();
-        }
+        	if (document.getElementById('id_yearsMonthsDaysToDays_years').value.length == 2) {
+		        document.getElementById('id_yearsMonthsDaysToDays_months').focus();
+        		document.getElementById('id_yearsMonthsDaysToDays_months').select();
+        	}
         }
         else if(who == 'id_yearsMonthsDaysToDays_months' && e.keyCode > 35) {
-        if (document.getElementById('id_yearsMonthsDaysToDays_months').value.length == 2) {
-        document.getElementById('id_yearsMonthsDaysToDays_days').focus();
-        document.getElementById('id_yearsMonthsDaysToDays_days').select();
+        	if (document.getElementById('id_yearsMonthsDaysToDays_months').value.length == 2) {
+        		document.getElementById('id_yearsMonthsDaysToDays_days').focus();
+        		document.getElementById('id_yearsMonthsDaysToDays_days').select();
+        	}
         }
-        }
-}
 }
 
 // Set focus
