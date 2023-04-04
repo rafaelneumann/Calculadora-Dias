@@ -445,7 +445,6 @@ function checkUncheck() {
 	get_concomitant_periods();
 }
 
-// Handles the first-last date calculation (last form)
 function tabToNext(e, who) {
 	if (who == "id_fistDateLastDate_beginning" && e.keyCode > 35) {
 	let checkField = document.getElementById('id_fistDateLastDate_beginning').value;
@@ -467,6 +466,19 @@ function tabToNext(e, who) {
 	document.getElementById('id_sumDaysMonthsYears_days').select();
 	}
 	}
+	else if(who == 'id_yearsMonthsDaysToDays_years' && e.keyCode > 35) {
+        if (document.getElementById('id_yearsMonthsDaysToDays_years').value.length == 2) {
+        document.getElementById('id_yearsMonthsDaysToDays_months').focus();
+        document.getElementById('id_yearsMonthsDaysToDays_months').select();
+        }
+        }
+        else if(who == 'id_yearsMonthsDaysToDays_months' && e.keyCode > 35) {
+        if (document.getElementById('id_yearsMonthsDaysToDays_months').value.length == 2) {
+        document.getElementById('id_yearsMonthsDaysToDays_days').focus();
+        document.getElementById('id_yearsMonthsDaysToDays_days').select();
+        }
+        }
+}
 }
 
 // Set focus
