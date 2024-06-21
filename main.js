@@ -3,6 +3,11 @@ var checkBoxCount = 0;
 var concomitances = [];
 var row_count = 0;
 
+function leapYear(year) {
+    // This extra leap day occurs in each year that is a multiple of 4, except for years evenly divisible by 100 but not by 400.
+    return (year % 4 == 0) && !((year % 100 == 0) && (year % 400 != 0));
+}
+
 // Colors the title randomly with red and green
 function colorMe(who) {
 	var colors = new Array("red", "green");
@@ -267,7 +272,7 @@ function calcFirstLastINSS(first, last) {
 
 	if (dateLast[0] == "31") {
     	dateLast[0] = 30;
-	} else if (dateLast[0] == "28" && dateLast[1] == "02") {
+	} else if (dateLast[0] == "28" && dateLast[1] == "02" && !leapYear(dateLast[2])) {
     	dateLast[0] = 30;
 	} else if (dateLast[0] == "29" && dateLast[1] == "02") {
     	dateLast[0] = 30;
@@ -412,11 +417,9 @@ function checkUncheck() {
 			hereMonths = 0;
 			hereYears = 0;
             moreInss = document.getElementById(counter).parentElement.parentElement.childNodes[7].textContent.match(/\d+/g);
-            console.log(moreInss);
             inss[0] += moreInss[0] * 1;
             inss[1] += moreInss[1] * 1;
             inss[2] += moreInss[2] * 1;
-            console.log(inss);
 
 			while (hereDays/365 >= 1) {
 				hereDays -= 365;
@@ -460,8 +463,6 @@ function checkUncheck() {
         inss[0] += 1
         inss[1] -= 12;
     }
-
-    console.log(inss);
 
 	let sumDays2 = (sumDay) + (sumMonth*30) + (sumYear*365);
 	let textResult = "<table><tr><td class=\"results\">Somando anos, meses e dias: " + sumYear + " anos, " + sumMonth + " meses e " + sumDay + " dias (" + sumDays2 + " dias).<br/>Somando os dias: " + sumDays + " dias.<br/>Soma à INSS: " + inss[0] + " anos, " + inss[1] + " meses e " + inss[2] + " dias (" + (inss[0]*365 + inss[1]*30 + inss[2]*1) + " dias).</td></tr></table>";
