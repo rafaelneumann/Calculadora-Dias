@@ -1,7 +1,6 @@
 // Global variables
-var checkBoxCount = 0;
-var concomitances = [];
-var row_count = 0;
+let checkBoxCount = 0;
+let row_count = 0;
 
 function leapYear(year) {
     // This extra leap day occurs in each year that is a multiple of 4, except for years evenly divisible by 100 but not by 400.
@@ -10,7 +9,7 @@ function leapYear(year) {
 
 // Colors the title randomly with red and green
 function colorMe(who) {
-	var colors = new Array("red", "green");
+	const colors = new Array("red", "green");
 	who.style.color = colors[Math.floor(Math.random()*2)];
 }
 
@@ -116,6 +115,7 @@ function toDate(days) {
 	} else {
     	text = text + months	+ " meses, ";
 	}
+
 	if (days == 1) {
     	text = text + days + " dia";
 	} else if (days == 0) {
@@ -147,17 +147,21 @@ function yearsMonthsDaystoDays() {
 
 function daysToYearsMonthsDays() {
 	let days = document.getElementById('id_daysToYearsMonthsDays_days').value;
+
 	if (days.indexOf('+', 0) > 0) {
-	let a = days.split('+');
-	days = 0;
-	for (i in a) {
-	days += a[i] * 1;
+    	let a = days.split('+');
+    	days = 0;
+
+    	for (const value in a) {
+        	days += Number(value);
+    	}
 	}
-	}
+
 	document.getElementById('id_daysToYearsMonthsDays_days').value = days;
 	let result = toDate(days);
 	document.getElementById('id_daysToYearsMonthsDays_result').innerHTML = result;
-	return false;
+
+	return;
 }
 
 function sumDaysMonthsYears() {
@@ -169,27 +173,33 @@ function sumDaysMonthsYears() {
 	let nowYears = document.getElementById('id_sumDaysMonthsYears_years').value;
 	let nowMonths = document.getElementById('id_sumDaysMonthsYears_months').value;
 	let nowDays = document.getElementById('id_sumDaysMonthsYears_days').value;
+
 	if (nowYears == "") { nowYears = 0; }
 	if (nowMonths == "") { nowMonths = 0; }
 	if (nowDays == "") { nowDays = 0; }
+
 	let years = ((alreadyYears*1) + (nowYears*1));
 	let months = ((alreadyMonths*1) + (nowMonths*1));
 	let days = ((alreadyDays*1) + (nowDays*1));
+
 	while (days > 29) {
-	days -= 30;
-	months += 1;
+    	days -= 30;
+    	months += 1;
 	}
+
 	while (months > 11) {
-	months -= 12;
-	years += 1;
+    	months -= 12;
+    	years += 1;
 	}
+
 	while (days < 0) {
-	months -= 1;
-	days += 30;
+    	months -= 1;
+    	days += 30;
 	}
+
 	while (months < 0) {
-	years -= 1;
-	months += 12;
+    	years -= 1;
+    	months += 12;
 	}
 	document.getElementById('id_sumDaysMonthsYears_result_years').innerHTML = years;
 	document.getElementById('id_sumDaysMonthsYears_result_months').innerHTML = months;
@@ -204,6 +214,7 @@ function sumDaysMonthsYears() {
 	let newCell0 = newRow.insertCell(0);
 	let newCell1 = newRow.insertCell(1);
 	let newCell2 = newRow.insertCell(2);
+
 	newCell0.align = 'center';
 	newCell1.align = 'center';
 	newCell2.align = 'center';
@@ -224,10 +235,11 @@ function sumDaysMonthsYears() {
 
 // Hide or show the main bodies
 function changeBottom(id) {
-	if (document.getElementById(id).style.display == "inline") {
-		document.getElementById(id).style.display = "none"
+	let element = document.getElementById(id);
+	if (window.getComputedStyle(element).display == "none") {
+		element.style.display = "";
 	} else {
-		document.getElementById(id).style.display = "inline"
+		element.style.display = "none";
 	}
 	return;
 }
@@ -257,48 +269,99 @@ function hideAll() {
 }
 
 function calcFirstLastINSS(first, last) {
-	if (first.length == 8 && last.length == 8) {
-    	first = first.substring(0, 2) + "/" + first.substring(2, 4) + "/" + first.substring(4, 8);
-    	last = last.substring(0, 2) + "/" + last.substring(2, 4) + "/" + last.substring(4, 8);
-	}
+    // Converte DDMMYYYY para DD/MM/YYYY se necessário
+    if (typeof first === "string" && first.length === 8 && !first.includes("/")) {
+        first = first.substring(0, 2) + "/" + first.substring(2, 4) + "/" + first.substring(4, 8);
+    }
 
-	if (first.length == 10 && last.length == 10) {
-    	dateFirst = first.split('/');
-    	dateLast = last.split('/');
-	} else {
-    	alert("Data inválida.");
-    	return;
-	}
+    if (typeof last === "string" && last.length === 8 && !last.includes("/")) {
+        last = last.substring(0, 2) + "/" + last.substring(2, 4) + "/" + last.substring(4, 8);
+    }
 
-	if (dateLast[0] == "31") {
-    	dateLast[0] = 30;
-	} else if (dateLast[0] == "28" && dateLast[1] == "02" && !leapYear(dateLast[2])) {
-    	dateLast[0] = 30;
-	} else if (dateLast[0] == "29" && dateLast[1] == "02") {
-    	dateLast[0] = 30;
-	}
+    const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+    const matchFirst = typeof first === "string" ? first.match(dateRegex) : null;
+    const matchLast = typeof last === "string" ? last.match(dateRegex) : null;
 
-	var dateYear = (dateLast[2]*1) - (dateFirst[2]*1) - 1;
-	var dateMonth = (dateLast[1]*1) - (dateFirst[1]*1) + 11;
-	var dateDay = (dateLast[0]*1) - (dateFirst[0]*1) + 31;
+    if (!matchFirst || !matchLast) {
+        return "Data inválida.";
+    }
 
-	while (dateDay >= 30) {
-    	dateDay -= 30;
-    	dateMonth += 1;
-	}
+    const d1 = parseInt(matchFirst[1], 10);
+    const m1 = parseInt(matchFirst[2], 10);
+    const y1 = parseInt(matchFirst[3], 10);
 
-	while (dateMonth >= 12) {
-    	dateMonth -= 12;
-    	dateYear += 1;
-	}
+    const d2 = parseInt(matchLast[1], 10);
+    const m2 = parseInt(matchLast[2], 10);
+    const y2 = parseInt(matchLast[3], 10);
 
-	var returnText = dateYear + " anos, " + dateMonth + " meses e " + dateDay + " dias";
-	returnText = returnText.replace("11", "DFgdfgdSFGdfgasdfsdf");
-	returnText = returnText.replace("1 anos", "1 ano");
-	returnText = returnText.replace("1 meses", "1 mês");
-	returnText = returnText.replace("1 dias", "1 dia");
-	returnText = returnText.replace("DFgdfgdSFGdfgasdfsdf", "11");
-	return returnText;
+    // Auxiliar interna para obter dias no mês considerando bissextos
+    const getDaysInMonth = (m, y) => {
+        if (m === 2) return ((y % 4 === 0 && y % 100 !== 0) || y % 400 === 0) ? 29 : 28;
+        return [4, 6, 9, 11].includes(m) ? 30 : 31;
+    };
+
+    // Validação de calendário
+    if (m1 < 1 || m1 > 12 || d1 < 1 || d1 > getDaysInMonth(m1, y1) ||
+        m2 < 1 || m2 > 12 || d2 < 1 || d2 > getDaysInMonth(m2, y2)) {
+        return "Data inválida.";
+    }
+
+    const t1 = new Date(y1, m1 - 1, d1).getTime();
+    const t2 = new Date(y2, m2 - 1, d2).getTime();
+
+    if (t1 > t2) {
+        return "Data inicial maior que a data final.";
+    }
+
+    // Caso do mesmo dia trabalhado
+    if (t1 === t2) {
+        return "0 anos, 0 meses e 1 dia";
+    }
+
+    // Regra oficial do INSS (Mês comercial de 30 dias):
+    // Se a data de término for o último dia do mês (31, ou fim de fev), conta como dia 30.
+    let endDay = d2;
+    if (d2 === getDaysInMonth(m2, y2) || d2 === 31) {
+        endDay = 30;
+    }
+
+    // Se a data de início for dia 31, alinha à base comercial de 30 dias
+    let startDay = d1;
+    if (startDay === 31) {
+        startDay = 30;
+    }
+
+    // Subtração de datas com base 30 dias e inclusão do dia inicial (+1)
+    let dateDay = endDay - startDay + 1;
+    let dateMonth = m2 - m1;
+    let dateYear = y2 - y1;
+
+    if (dateDay < 0) {
+        dateDay += 30;
+        dateMonth -= 1;
+    }
+
+    if (dateMonth < 0) {
+        dateMonth += 12;
+        dateYear -= 1;
+    }
+
+    while (dateDay >= 30) {
+        dateDay -= 30;
+        dateMonth += 1;
+    }
+
+    while (dateMonth >= 12) {
+        dateMonth -= 12;
+        dateYear += 1;
+    }
+
+    let returnText = `${dateYear} anos, ${dateMonth} meses e ${dateDay} dias`;
+    returnText = returnText.replace(/\b1 anos\b/g, "1 ano");
+    returnText = returnText.replace(/\b1 meses\b/g, "1 mês");
+    returnText = returnText.replace(/\b1 dias\b/g, "1 dia");
+
+    return returnText;
 }
 
 // Hides the line funcion
@@ -320,19 +383,19 @@ function getPeriod() {
 	let firstDate = document.getElementById('id_fistDateLastDate_beginning').value;
 	let lastDate = document.getElementById('id_fistDateLastDate_ending').value;
 	let text = calcFirstLast(firstDate, lastDate);
+
 	if (text == "-#") {
 		alert("Data inválida");
 		return;
 	}
+
 	let returned = text.split(";");
 	let returnedCompleteDate = returned[1].split("/");
 	let textToWrite = returnedCompleteDate[0] + " anos, " + returnedCompleteDate[1] + " meses e " + returnedCompleteDate[2] + " dias";
 
-	textToWrite = textToWrite.replace("11", "DFgdfgdSFGdfgasdfsdf");
-	textToWrite = textToWrite.replace("1 dias", "1 dia");
-	textToWrite = textToWrite.replace("1 meses", "1 mês");
-	textToWrite = textToWrite.replace("1 anos", "1 ano");
-	textToWrite = textToWrite.replace("DFgdfgdSFGdfgasdfsdf", "11");
+    textToWrite = textToWrite.replace(/\b1 anos\b/g, "1 ano");
+    textToWrite = textToWrite.replace(/\b1 meses\b/g, "1 mês");
+    textToWrite = textToWrite.replace(/\b1 dias\b/g, "1 dia");
 
 	textToWriteINSS = calcFirstLastINSS(firstDate, lastDate)
 
@@ -466,11 +529,10 @@ function checkUncheck() {
 
 	let sumDays2 = (sumDay) + (sumMonth*30) + (sumYear*365);
 	let textResult = "<table><tr><td class=\"results\">Somando anos, meses e dias: " + sumYear + " anos, " + sumMonth + " meses e " + sumDay + " dias (" + sumDays2 + " dias).<br/>Somando os dias: " + sumDays + " dias.<br/>Soma à INSS: " + inss[0] + " anos, " + inss[1] + " meses e " + inss[2] + " dias (" + (inss[0]*365 + inss[1]*30 + inss[2]*1) + " dias).</td></tr></table>";
-	textResult = textResult.replace("11", "asdfasdfsdf");
-	textResult = textResult.replace("1 anos", "1 ano");
-	textResult = textResult.replace("1 meses", "1 mês");
-	textResult = textResult.replace("1 dias", "1 dia");
-	textResult = textResult.replace("asdfasdfsdf", "11");
+
+    textResult = textResult.replace(/\b1 anos\b/g, "1 ano");
+    textResult = textResult.replace(/\b1 meses\b/g, "1 mês");
+    textResult = textResult.replace(/\b1 dias\b/g, "1 dia");
 	document.getElementById('id_results').innerHTML = textResult;
 
 	// check for concomitances
@@ -519,19 +581,55 @@ function setFocus() {
 // Selects no one of the inserted periods
 function zeroSelection() {
 	let c = document.getElementsByTagName('input');
-	for(let i = 0; i < c.length; i++){
-	if (c[i].getAttribute('type') == 'checkbox') {
-		c[i].checked = false;
-		}
-	}
 
-checkUncheck();
-return;
+	for(let i = 0; i < c.length; i++) {
+    	if (c[i].getAttribute('type') == 'checkbox') {
+    		c[i].checked = false;
+        }
+    }
+
+    checkUncheck();
+    return;
 }
 
 // Calculates the period from pasted text
-function insertFromText() {
+let importWithoutOverlaps = false;
+
+function insertFromText(withoutOverlaps = false) {
+	importWithoutOverlaps = withoutOverlaps;
+	document.getElementById('id_import_message').textContent = '';
 	document.getElementById('direct_input').style = 'display: inline;'
+}
+
+const millisecondsPerDay = 86400000;
+
+function parseImportDay(text) {
+	const digits = text.replace(/\//g, '');
+	const day = Number(digits.slice(0, 2));
+	const month = Number(digits.slice(2, 4));
+	const year = Number(digits.slice(4));
+	const date = new Date(0);
+	date.setUTCFullYear(year, month - 1, day);
+	if (date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) return NaN;
+	return date.getTime() / millisecondsPerDay;
+}
+
+function formatImportDay(day) {
+	const [year, month, date] = new Date(day * millisecondsPerDay).toISOString().slice(0, 10).split('-');
+	return `${date}/${month}/${year}`;
+}
+
+function subtractCoveredDays(start, end, covered) {
+	const remaining = [];
+	for (const [coveredStart, coveredEnd] of covered) {
+		if (coveredEnd < start) continue;
+		if (coveredStart > end) break;
+		if (coveredStart > start) remaining.push([start, coveredStart - 1]);
+		start = coveredEnd + 1;
+		if (start > end) break;
+	}
+	if (start <= end) remaining.push([start, end]);
+	return remaining;
 }
 
 // Let the user pass a lot of text and gets the first two
@@ -541,25 +639,39 @@ function calculateFromText() {
 	let wholetxt = document.getElementById('txt_for_direct_input').value;
 
 	wholetxt = wholetxt.replace(/\nData\s[Ff]im/g, ' ');
-	txt_array = wholetxt.split(/\r?\n/g);
+	let lines = wholetxt.split(/\r?\n/g);
+	const covered = [];
+	const invalidLines = [];
 
-	for (let i = 0; i < txt_array.length; i++) {
-	// 2 formats allowed
-	let matches1 = txt_array[i].match(/\d{2}\/\d{2}\/\d{4}/g);
-	let matches2 = txt_array[i].match(/\d{8}/g);
+	for (let i = 0; i < lines.length; i++) {
+		// Accept both formats while preserving the order in which dates appear.
+		const dates = lines[i].match(/\d{2}\/\d{2}\/\d{4}|\d{8}/g);
+		if (!dates || dates.length < 2) continue;
+		const [first, last] = dates;
 
-	if (matches1 && matches1.length >= 2) {
-	document.getElementById('id_fistDateLastDate_beginning').value = matches1[0];
-	document.getElementById('id_fistDateLastDate_ending').value = matches1[1];
-	getPeriod();
-	}
+		const start = parseImportDay(first);
+		const end = parseImportDay(last);
+		if (!Number.isFinite(start) || !Number.isFinite(end) || start > end) {
+			invalidLines.push(i + 1);
+			continue;
+		}
 
-	if (matches2 && matches2.length >= 2) {
-	document.getElementById('id_fistDateLastDate_beginning').value = matches2[0];
-	document.getElementById('id_fistDateLastDate_ending').value = matches2[1];
-	getPeriod();
+		const beginning = document.getElementById('id_fistDateLastDate_beginning');
+		const ending = document.getElementById('id_fistDateLastDate_ending');
+		const remaining = importWithoutOverlaps ? subtractCoveredDays(start, end, covered) : [[start, end]];
+		for (const [remainingStart, remainingEnd] of remaining) {
+			beginning.value = formatImportDay(remainingStart);
+			ending.value = formatImportDay(remainingEnd);
+			getPeriod();
+		}
+		if (importWithoutOverlaps) {
+			covered.push(...remaining);
+			covered.sort((a, b) => a[0] - b[0]);
+		}
 	}
-	}
+	document.getElementById('id_import_message').textContent = invalidLines.length
+		? 'Linhas ignoradas por datas inválidas: ' + invalidLines.join(', ') + '.'
+		: '';
 }
 
 // Look out for concomitant periods
@@ -641,25 +753,12 @@ Date.prototype.ddmmyyyy = function() {
 	let mm = this.getMonth() + 1; // getMonth() is zero-based
 	let dd = this.getDate();
 
-	return [(dd>9 ? '' : '0') + dd,
-	(mm>9 ? '' : '0') + mm,
-	this.getFullYear()].join('/');
+	return [
+        (dd>9 ? '' : '0') + dd,
+        (mm>9 ? '' : '0') + mm,
+        this.getFullYear()
+    ].join('/');
 };
-
-function linedraw(ax, ay, bx, by) {
-	if(ay > by) {
-		bx = ax + bx;
-		ax = bx - ax;
-		bx = bx - ax;
-		by = ay + by;
-		ay = by - ay;
-		by = by - ay;
-	}
-	let calc = Math.atan((ay - by) / (bx - ax));
-	calc = calc*180 / Math.PI;
-	var length = Math.sqrt((ax - bx) * (ax - bx) + (ay - by) * (ay - by));
-	document.body.innerHTML += "<div id='line' style='height:" + length + "px;width:1px;background-color:black;position:absolute;top:" + (ay) + "px;left:" + (ax) + "px;transform:rotate(" + calc + "deg);-ms-transform:rotate(" + calc + "deg);transform-origin:0% 0%;-moz-transform:rotate(" + calc + "deg);-moz-transform-origin:0% 0%;-webkit-transform:rotate(" + calc	+ "deg);-webkit-transform-origin:0% 0%;-o-transform:rotate(" + calc + "deg);-o-transform-origin:0% 0%;'></div>"
-}
 
 function highlight(searched_text) {
 	let elems = document.querySelectorAll('tr');
