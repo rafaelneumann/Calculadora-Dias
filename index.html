@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f6f7f8" />
   <title>Calculadora de Dias</title>
   <link rel="stylesheet" href="style.css">
-  <script type="text/javascript" src='main.js' defer></script>
+  <script defer src="main.js"></script>
 </head>
 
 <body onload="setFocus();" onkeydown="keyPress(event, this);">
@@ -84,56 +86,58 @@
   </div>
   <br />
   <div class="header_div"><b onclick="changeBottom('id_fistDateLastDate');" onmouseover="colorMe(this);"
-      onmouseout="decolorMe(this);">Calcular tempo</b></div>
-  <div id="id_fistDateLastDate" style="display:inline;">
-    <form id="id_fistDateLastDate_form" onkeydown="keyPress(event, this.id);">
-      <table>
-        <tr>
-          <td align="left">Data inicial:</td>
-          <td><input type="text" class="textBox_big" id="id_fistDateLastDate_beginning"
+      onmouseout="decolorMe(this);">Calcular tempo</b>
+    <div id="id_fistDateLastDate">
+      <form id="id_fistDateLastDate_form" onkeydown="keyPress(event, this.id);">
+        <table>
+          <tr>
+            <td align="left">Data inicial:</td>
+            <td><input type="text" class="textBox_big" id="id_fistDateLastDate_beginning"
               onkeyup="tabToNext(event, this.id);" placeholder="ddmmaaaa" /></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td align="left">Data final:</td>
-          <td><input type="text" class="textBox_big" id="id_fistDateLastDate_ending" placeholder="ddmmaaaa" /></td>
-          <td><input type="button" value="Calcular" onclick="getPeriod()" /></td>
-          <td><input type="button" value="Atualizar" onclick="checkUncheck();" /></td>
-          <td><input type="button" value="Inserir" onclick="insertFromText();" /></td>
-        </tr>
-        <tr>
-          <td colspan="5"><small>Formato: ddmmaaaa ou dd/mm/aaaa.</small></td>
-        </tr>
-      </table>
-    </form>
-    <div id='direct_input'><textarea rows='6' cols='52' id='txt_for_direct_input'
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td align="left">Data final:</td>
+            <td><input type="text" class="textBox_big" id="id_fistDateLastDate_ending" placeholder="ddmmaaaa" /></td>
+            <td><input type="button" value="Calcular" onclick="getPeriod()" /></td>
+            <td><input type="button" value="Inserir Bloco" onclick="insertFromText();" /></td>
+            <td><input type="button" value="Inserir Bloco sem Concomitâncias" onclick="insertFromText(true);" /></td>
+          </tr>
+          <tr>
+            <td colspan="5"><small>Formato: ddmmaaaa ou dd/mm/aaaa.</small></td>
+          </tr>
+        </table>
+      </form>
+      <div id='direct_input'><textarea rows='6' cols='52' id='txt_for_direct_input'
         placeholder='O app procurará por duas datas para cada linha de texto, sendo a primeira a data de início e a outra a data final. Ex: de 01/01/2010 a 15/19/2015. Se houver outras datas depois das duas primeiras, elas serão ignoradas.'></textarea><input
         type="button" value="OK" onclick="calculateFromText();" /></div>
-    <div id="id_results"></div>
-    <table id="id_fistDateLastDate_table_periods">
-      <tr>
-        <td></td>
-        <td align="center">Período</td>
-        <td>|</td>
-        <td align="center">Anos, meses e dias</td>
-        <td>&#60;&#62;</td>
-        <td align="center">Dias</td>
-        <td>|</td>
-        <td align="center">à INSS</td>
-        <td>|</td>
-        <td align="center">Descrição</td>
-      </tr>
-    </table>
-    <div id="id_selectNone" onclick="zeroSelection();">Zerar seleção</div>
-    <div id="id_concomitances"></div>
+      <div id="id_import_message" role="status"></div>
+      <div id="id_results"></div>
+      <table id="id_fistDateLastDate_table_periods">
+        <tr>
+          <td></td>
+          <td align="center">Período</td>
+          <td>|</td>
+          <td align="center">Anos, meses e dias</td>
+          <td>&#60;&#62;</td>
+          <td align="center">Dias</td>
+          <td>|</td>
+          <td align="center">à INSS</td>
+          <td>|</td>
+          <td align="center">Descrição</td>
+        </tr>
+      </table>
+      <div id="id_selectNone" onclick="zeroSelection();">Zerar seleção</div>
+      <div id="id_concomitances"></div>
+    </div>
   </div>
   <div class="header_div" id="modificar_titulo" style="margin-top: 30px;">
     <b onclick="changeBottom('id_modificar_titulo');" onmouseover="colorMe(this);"
       onmouseout="decolorMe(this);">Modificar título da página</b>
     <input type="text" id="id_modificar_titulo" style="display:none;"
-      oninput="document.title = getElementById('id_modificar_titulo').value;" /></p>
+      oninput="document.title = getElementById('id_modificar_titulo').value;" />
   </div>
   <div><small>Licença: MIT.</small></div>
 </body>
