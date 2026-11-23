@@ -632,6 +632,20 @@ function subtractCoveredDays(start, end, covered) {
 	return remaining;
 }
 
+function getTablePeriods() {
+	const table = document.getElementById('id_fistDateLastDate_table_periods');
+	const periods = [];
+	for (const row of table.querySelectorAll('tr.notdeleted')) {
+		const [first, last] = row.cells[1].textContent.split('->');
+		const start = parseImportDay(first);
+		const end = parseImportDay(last);
+		if (Number.isFinite(start) && Number.isFinite(end) && start <= end) {
+			periods.push([start, end]);
+		}
+	}
+	return periods.sort((a, b) => a[0] - b[0]);
+}
+
 // Let the user pass a lot of text and gets the first two
 // dates per line to calculate the period
 function calculateFromText() {
@@ -640,7 +654,7 @@ function calculateFromText() {
 
 	wholetxt = wholetxt.replace(/\nData\s[Ff]im/g, ' ');
 	let lines = wholetxt.split(/\r?\n/g);
-	const covered = [];
+	const covered = importWithoutOverlaps ? getTablePeriods() : [];
 	const invalidLines = [];
 
 	for (let i = 0; i < lines.length; i++) {
